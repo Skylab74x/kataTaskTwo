@@ -41,6 +41,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
+                throw e;
             }
         }
     }
@@ -63,6 +64,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
+                throw e;
             }
         }
     }
@@ -77,9 +79,13 @@ public class UserDaoHibernateImpl implements UserDao {
             User user = new User(name, lastName, age);
             session.persist(user);
             transaction.commit();
+
+            System.out.println("User с именем — " + name + " добавлен в базу данных");
+
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
+                throw e;
             }
         }
     }
@@ -99,6 +105,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
+                throw e;
             }
         }
     }
@@ -118,6 +125,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } catch (Exception e) {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
+                throw e;
             }
         }
         return users;
@@ -130,11 +138,16 @@ public class UserDaoHibernateImpl implements UserDao {
         try(Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
 
-            session.createQuery("delete from User", User.class)
+            session.createQuery("delete from User ")
                     .executeUpdate();
 
             transaction.commit();
 
+        } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+                throw e;
+            }
         }
     }
 }

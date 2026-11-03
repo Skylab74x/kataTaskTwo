@@ -26,6 +26,16 @@ public class User {
     }
 
     public User(String name, String lastName, Byte age) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("name must be not a blank");
+        }
+        if (lastName == null || lastName.isBlank()) {
+            throw new IllegalArgumentException("lastName must be not a blank");
+        }
+        if (age < 0) {
+            throw new IllegalArgumentException("age must be more than 0");
+        }
+
         this.name = name;
         this.lastName = lastName;
         this.age = age;
