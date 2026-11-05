@@ -13,7 +13,7 @@ import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    SessionFactory sessionFactory = Util.getSessionFactory();
+    private final SessionFactory sessionFactory = Util.getSessionFactory();
 
     public UserDaoHibernateImpl() {
     }
@@ -49,7 +49,7 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void dropUsersTable() {
         String sql = """
-                DROP TABLE users
+                DROP TABLE IF EXISTS users
                 """;
 
         Transaction transaction = null;
@@ -88,6 +88,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 throw e;
             }
         }
+
     }
 
     @Override
